@@ -10,21 +10,21 @@ import (
 
 func main() {
 	reader := bufio.NewReader(os.Stdin)
-	fmt.Println("Simple Shell")
+	fmt.Println("Docker Shell")
 	fmt.Println("---------------------")
 	for {
-		fmt.Print("-> ")
+		fmt.Print("DockerShell-> ")
 		// Read the keyboad input
-		text, _ := reader.ReadString('\n')
+		input, _ := reader.ReadString('\n')
 		// convert CRLF to LF
-		text = strings.Replace(text, "\n", "", -1)
+		input = strings.Replace(input, "\n", "", -1)
 
-		if strings.Compare("hi", text) == 0 {
+		if strings.Compare("hi", input) == 0 {
 			fmt.Println("hello, Yourself")
 		}
 
 		docker := "docker"
-		args := text
+		args := input
 		cmd := exec.Command(docker, args)
 		cmdReader, err := cmd.StdoutPipe()
 
@@ -35,7 +35,7 @@ func main() {
 		scanner := bufio.NewScanner(cmdReader)
 		go func() {
 			for scanner.Scan() {
-				fmt.Printf("docker %s out | %s\n", text, scanner.Text())
+				fmt.Printf("docker %s out | %s\n", input, scanner.Text())
 			}
 		}()
 		err = cmd.Start()
