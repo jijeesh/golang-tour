@@ -9,14 +9,15 @@ import (
 )
 
 func main() {
-	cli, err := client.NewEnvClient()
+	// cli, err := client.NewEnvClient()
+	cli, err := client.NewClientWithOpts(client.WithVersion("1.39"))
 	if err != nil {
-		fmt.Println(err)
+		panic(err)
 	}
 
 	images, err := cli.ImageList(context.Background(), types.ImageListOptions{})
 	if err != nil {
-		fmt.Println(err)
+		panic(err)
 	}
 
 	for _, image := range images {
